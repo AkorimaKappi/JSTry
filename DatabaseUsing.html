@@ -1,16 +1,20 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
+    <style>
+        .undisplay{
+    display: none;
+}
+    </style>
+<script src="UsersAllowance.js"></script>
 <head>
+    
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
   <title>UsersDatabase</title>
 </head>
-.undisplay{
-    display: none;
-}
+
 
 <body>
   <h1>
@@ -37,9 +41,9 @@
     <button onclick="returnToFirstScreen(registerScreen)">Back</button>
   </div>
   <div id="loginedUserScreen" class="undisplay">
-    <button onclick="showUsers()">Show All Users</button><br><br>
-    <button onclick="showUser()">Show User by ID/Username</button><br><br>
-    <button onclick="deleteUser()">Delete User by ID/Username</button><br><br>
+    <button onclick="moveToShowAllUsersScreen()">Show All Users</button><br><br>
+    <button onclick="moveToShowUserScreen()">Show User by ID/Username</button><br><br>
+    <button onclick="moveToDeleteUserScreen()">Delete User by ID/Username</button><br><br>
     <button onclick="returnToFirstScreen(loginedUserScreen)">Log Out</button><br><br>
   </div>
   <div id="deletUserScreen" class="undisplay">
@@ -47,16 +51,17 @@
     <button onclick="deleteUser()">Delete</button><br><br>
     <button onclick="returnToLoginnedScreen(deletUserScreen)">Back</button><br><br>
     </div>
-    <div id="showAllUsersScreen" class="undisplay">
-        
-    </div>
-    <div id="showUserScreen" class="undisplayed">
+    <div id="showUserScreen" class="undisplay">
         <input type = "text" id="showUserInput" placeholder="ID or Username"><br><br>
         <button onclick="showUser()">Show</button>
         <button onclick="returnToLoginnedScreen(showUserScreen)">Back</button><br><br>
-    </div><div id="showAllUsersScreen" class="undisplayed">
+
+    </div>
+
+    <div id="showAllUsersScreen" class="undisplay">
         <button onclick="showUsers()">Show</button>
         <button onclick="returnToLoginnedScreen(showAllUsersScreen)">Back</button><br><br>
+
     </div>
 </body>
 

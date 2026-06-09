@@ -199,3 +199,15 @@ function returnToLoginnedScreen(screen){
     screen.classList.add("undisplay");
     document.getElementById("loginedUserScreen").classList.remove("undisplayed");
 }
+function moveToShowAllUsersScreen(){
+    document.getElementById("loginedUserScreen").classList.add("undisplay");
+    document.getElementById("showAllUsersScreen").classList.remove("undisplay");
+}
+function moveToShowUserScreen(){
+    document.getElementById("loginedUserScreen").classList.add("undisplay");
+    document.getElementById("showUserScreen").classList.remove("undisplay");
+}
+function moveToDeleteUserScreen(){
+    document.getElementById("loginedUserScreen").classList.add("undisplay");
+    document.getElementById("deletUserScreen").classList.remove("undisplay");
+}
