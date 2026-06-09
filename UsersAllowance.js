@@ -1,5 +1,9 @@
-let users = [];
+const fs = require('fs');
+function getUsersObject(){
+    return JSON.parse(fs.readFile('data.json'));
+}
 function allowUsername(username) {
+    let users = getUsersObject();
     if (users.some(user => user.username === username)) {
         return 1;
     } else if (username.includes(" ")) {
@@ -127,9 +131,18 @@ function registerUser() {
             unchangedValues--;
     }
     if (unchangedValues == 0) {
+        let users = getUsersObject();
         user.id = users.length + 1;
         users.push(user);
-        alert("You have successfully registered!");
+        const jsonData = JSON.stringify(users,null,2);
+        fs.writeFile('data.json',jsonData,(err)=>{
+            if(err){
+                alert("An error occurred during writing in the file.");
+            }
+            else{
+                alert("User was successfully registrated.");
+            }
+        })
         document.getElementById("registerScreen").classList.add("undisplay");
         document.getElementById("firstScreen").classList.remove("undisplay");
     }
@@ -138,7 +151,7 @@ function registerUser() {
     }
 }
 function loginUser() {
-
+    let users = getUsersObject();
     let username = document.getElementById("loginUsername").value;
     let password = document.getElementById("loginPassword").value;
     let user = users.find(user => user.username === username);
@@ -154,6 +167,7 @@ function loginUser() {
     }
 }
 function showUsers() {
+    let users = getUsersObject();
     let usersList = document.getElementById("usersList");
     usersList.innerHTML = "";
     users.forEach(user => {
@@ -163,6 +177,7 @@ function showUsers() {
     });
 }
 function showUser() {
+    let users = getUsersObject();
     let userDefiner = document.getElementById("userDefiner").value;
     let user = users.find(user => user.username === userDefiner || user.id === parseInt(userDefiner));
     if (user) {
@@ -176,11 +191,19 @@ function showUser() {
     }
 }
 function deleteUser() {
+    let users = getUsersObject();
     let userDefiner = document.getElementById("deleteUserInput").value;
     let userIndex = users.findIndex(user => user.username === userDefiner || user.id === parseInt(userDefiner));
     if (userIndex !== -1) {
         users.splice(userIndex, 1);
-        alert("The user has been deleted.");
+        fs.writeFile('data.json',jsonData,(err)=>{
+            if(err){
+                alert("An error occurred during writing in the file.");
+            }
+            else{
+                alert("The user has been deleted.");
+            }
+        })
     } else {
         alert("The user was not found.");
     }
