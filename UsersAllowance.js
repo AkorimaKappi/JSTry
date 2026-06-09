@@ -1,9 +1,9 @@
-const fs = require('fs');
-function getUsersObject(){
-    return JSON.parse(fs.readFile('data.json'));
+let loginedID = 0;
+function getUsersList() {
+    return JSON.parse(localStorage.getItem("users")) ?? [];
 }
 function allowUsername(username) {
-    let users = getUsersObject();
+    let users = getUsersList();
     if (users.some(user => user.username === username)) {
         return 1;
     } else if (username.includes(" ")) {
@@ -39,13 +39,25 @@ function allowFullname(fullName) {
     }
 }
 function allowAge(age) {
-    if (age < 18) {
+    if (isNaN(age)) {
         return 1;
-    } else if (age > 100) {
+    }
+    else if (age < 18) {
         return 2;
+    } else if (age > 100) {
+        return 3;
     } else {
         return;
     }
+}
+function allowEmail(email) {
+    let users = getUsersList();
+    if (!(email.includes("@") && email.includes(".") && email.indexOf("@") < email.lastIndexOf(".") && email.indexOf("@") > 0 && email.lastIndexOf(".") < email.length - 1)) {
+        return 1;
+    }
+    else if ((users.some(user => user.email === email))) {
+        return 2;
+    } else return;
 }
 function registerUser() {
     const user = {
@@ -112,18 +124,26 @@ function registerUser() {
             unchangedValues--;
     }
     let email = document.getElementById("registerEmail").value;
-    if (!(email.includes("@") && email.includes(".") && email.indexOf("@") < email.lastIndexOf(".") && email.indexOf("@") > 0 && email.lastIndexOf(".") < email.length - 1)) {
-        alert("Your email is invalid.");
-    } else {
-        user.email = email;
-        unchangedValues--;
+    switch (allowEmail(email)) {
+        case 1:
+            alert("Your email is invalid.");
+            break;
+        case 2:
+            alert("You are not allowed to register to more than 1 account with 1 email adress.");
+            break;
+        default:
+            user.email = email;
+            unchangedValues--;
     }
     let age = parseInt(document.getElementById("registerAge").value);
     switch (allowAge(age)) {
         case 1:
-            alert("You must be at least 18 years old to register.");
+            alert("Entered age is invalid.");
             break;
         case 2:
+            alert("You must be at least 18 years old to register.");
+            break;
+        case 3:
             alert("Your age is too high, people of such age are probably already retired.");
             break;
         default:
@@ -131,18 +151,14 @@ function registerUser() {
             unchangedValues--;
     }
     if (unchangedValues == 0) {
-        let users = getUsersObject();
-        user.id = users.length + 1;
+        let users = getUsersList();
+        do {
+            user.id = Math.floor(Math.random() * 100000);
+        } while (users.some(checkId => checkId.id === user.id))
         users.push(user);
-        const jsonData = JSON.stringify(users,null,2);
-        fs.writeFile('data.json',jsonData,(err)=>{
-            if(err){
-                alert("An error occurred during writing in the file.");
-            }
-            else{
-                alert("User was successfully registrated.");
-            }
-        })
+        const jsonData = JSON.stringify(users, null, 2);
+        localStorage.setItem("users", jsonData);
+        alert("User was saved to the local storge.");
         document.getElementById("registerScreen").classList.add("undisplay");
         document.getElementById("firstScreen").classList.remove("undisplay");
     }
@@ -151,12 +167,13 @@ function registerUser() {
     }
 }
 function loginUser() {
-    let users = getUsersObject();
+    let users = getUsersList();
     let username = document.getElementById("loginUsername").value;
     let password = document.getElementById("loginPassword").value;
     let user = users.find(user => user.username === username);
     if (user) {
         if (user.password === password) {
+            loginedID = user.id;
             document.getElementById("loginScreen").classList.add("undisplay");
             document.getElementById("loginedUserScreen").classList.remove("undisplay");
         } else {
@@ -167,7 +184,7 @@ function loginUser() {
     }
 }
 function showUsers() {
-    let users = getUsersObject();
+    let users = getUsersList();
     let usersList = document.getElementById("usersList");
     usersList.innerHTML = "";
     users.forEach(user => {
@@ -177,11 +194,11 @@ function showUsers() {
     });
 }
 function showUser() {
-    let users = getUsersObject();
+    let users = getUsersList();
     let userDefiner = document.getElementById("userDefiner").value;
     let user = users.find(user => user.username === userDefiner || user.id === parseInt(userDefiner));
     if (user) {
-        let usersList = document.getElementById("usersList");
+        let usersList = document.getElementById("userShower");
         usersList.innerHTML = "";
         let listItem = document.createElement("li");
         listItem.textContent = `ID: ${user.id}  Username: ${user.username}  Full Name: ${user.fullName}  Email: ${user.email}  Age: ${user.age}`;
@@ -191,24 +208,27 @@ function showUser() {
     }
 }
 function deleteUser() {
-    let users = getUsersObject();
+    let users = getUsersList();
     let userDefiner = document.getElementById("deleteUserInput").value;
     let userIndex = users.findIndex(user => user.username === userDefiner || user.id === parseInt(userDefiner));
     if (userIndex !== -1) {
-        users.splice(userIndex, 1);
-        fs.writeFile('data.json',jsonData,(err)=>{
-            if(err){
-                alert("An error occurred during writing in the file.");
-            }
-            else{
-                alert("The user has been deleted.");
-            }
-        })
+        if (users[userIndex].id == loginedID) {
+            alert("You cannod delete your own account.");
+        }
+        else {
+            users.splice(userIndex, 1);
+            const jsonData = JSON.stringify(users, null, 2);
+            localStorage.setItem("users", jsonData);
+            alert("User was deleted from the local storge.");
+        }
     } else {
         alert("The user was not found.");
     }
 }
 function returnToFirstScreen(screen) {
+    if (screen == loginedUserScreen) {
+        loginedID = 0;
+    }
     screen.classList.add("undisplay");
     document.getElementById("firstScreen").classList.remove("undisplay");
 }
@@ -234,5 +254,5 @@ function moveToShowUserScreen() {
 }
 function moveToDeleteUserScreen() {
     document.getElementById("loginedUserScreen").classList.add("undisplay");
-    document.getElementById("deletUserScreen").classList.remove("undisplay");
+    document.getElementById("deleteUserScreen").classList.remove("undisplay");
 }

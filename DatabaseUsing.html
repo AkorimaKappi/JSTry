@@ -5,7 +5,6 @@
         display: none;
     }
 </style>
-<script src="UsersAllowance.js"></script>
 
 <head>
 
@@ -14,7 +13,6 @@
     <link rel="stylesheet" href="style.css" />
     <title>UsersDatabase</title>
 </head>
-
 
 <body>
     <h1>
@@ -46,21 +44,25 @@
         <button onclick="moveToDeleteUserScreen()">Delete User by ID/Username</button><br><br>
         <button onclick="returnToFirstScreen(loginedUserScreen)">Log Out</button><br><br>
     </div>
-    <div id="deletUserScreen" class="undisplay">
+    <div id="deleteUserScreen" class="undisplay">
         <input type="text" id="deleteUserInput" placeholder="ID or Username"><br><br>
         <button onclick="deleteUser()">Delete</button><br><br>
-        <button onclick="returnToLoginnedScreen(deletUserScreen)">Back</button><br><br>
+        <button onclick="returnToLoginnedScreen(deleteUserScreen)">Back</button><br><br>
     </div>
     <div id="showUserScreen" class="undisplay">
-        <input type="text" id="showUserInput" placeholder="ID or Username"><br><br>
+        <ul id="userShower"></ul>
+        <input type="text" id="userDefiner" placeholder="ID or Username"><br><br>
         <button onclick="showUser()">Show</button>
         <button onclick="returnToLoginnedScreen(showUserScreen)">Back</button><br><br>
 
     </div>
     <div id="showAllUsersScreen" class="undisplay">
+        <ul id="usersList"></ul>
         <button onclick="showUsers()">Show</button>
         <button onclick="returnToLoginnedScreen(showAllUsersScreen)">Back</button><br><br>
     </div>
+
+    <script src="UsersAllowance.js"></script>
 </body>
 
 </html>
