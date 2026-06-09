@@ -6,7 +6,7 @@ function allowUsername(username) {
         return 2;
     } else if (username.length < 3) {
         return 3;
-    }
+    } else return;
 }
 function allowPassword(password) {
     if (password.length < 8) {
@@ -21,9 +21,9 @@ function allowPassword(password) {
         return 5;
     } else if (password.includes(" ")) {
         return 6;
-    } else if(password!==document.getElementById("confirmRegisterPassword").value){
+    } else if (password !== document.getElementById("registerConfirmPassword").value) {
         return 7;
-    }else return;
+    } else return;
 }
 function allowFullname(fullName) {
     if (fullName.length == 0) {
@@ -53,7 +53,7 @@ function registerUser() {
         age: 0
     };
     let unchangedValues = 5;
-    username = document.getElementById("registerUsername").value;
+    let username = document.getElementById("registerUsername").value;
     switch (allowUsername(username)) {
         case 1:
             alert("This username already exists");
@@ -108,13 +108,13 @@ function registerUser() {
             unchangedValues--;
     }
     let email = document.getElementById("registerEmail").value;
-    if (email.includes("@") && email.includes(".") && email.indexOf("@") < email.lastIndexOf(".") && email.indexOf(".") == email.lastIndexOf(".") && email.indexOf("@") > 0 && email.lastIndexOf(".") < email.length - 1) {
+    if (!(email.includes("@") && email.includes(".") && email.indexOf("@") < email.lastIndexOf(".") && email.indexOf("@") > 0 && email.lastIndexOf(".") < email.length - 1)) {
         alert("Your email is invalid.");
     } else {
         user.email = email;
         unchangedValues--;
     }
-    let age = document.parseInt(document.getElementById("registerAge").value);
+    let age = parseInt(document.getElementById("registerAge").value);
     switch (allowAge(age)) {
         case 1:
             alert("You must be at least 18 years old to register.");
@@ -130,6 +130,8 @@ function registerUser() {
         user.id = users.length + 1;
         users.push(user);
         alert("You have successfully registered!");
+        document.getElementById("registerScreen").classList.add("undisplay");
+        document.getElementById("firstScreen").classList.remove("undisplay");
     }
     else {
         alert("Please correct the errors and try again.");
@@ -187,27 +189,27 @@ function returnToFirstScreen(screen) {
     screen.classList.add("undisplay");
     document.getElementById("firstScreen").classList.remove("undisplay");
 }
-function moveToRegisterScreen(){
+function moveToRegisterScreen() {
     document.getElementById("firstScreen").classList.add("undisplay");
     document.getElementById("registerScreen").classList.remove("undisplay");
 }
-function moveToLoginScreen(){
+function moveToLoginScreen() {
     document.getElementById("firstScreen").classList.add("undisplay");
     document.getElementById("loginScreen").classList.remove("undisplay");
 }
-function returnToLoginnedScreen(screen){
+function returnToLoginnedScreen(screen) {
     screen.classList.add("undisplay");
-    document.getElementById("loginedUserScreen").classList.remove("undisplayed");
+    document.getElementById("loginedUserScreen").classList.remove("undisplay");
 }
-function moveToShowAllUsersScreen(){
+function moveToShowAllUsersScreen() {
     document.getElementById("loginedUserScreen").classList.add("undisplay");
     document.getElementById("showAllUsersScreen").classList.remove("undisplay");
 }
-function moveToShowUserScreen(){
+function moveToShowUserScreen() {
     document.getElementById("loginedUserScreen").classList.add("undisplay");
     document.getElementById("showUserScreen").classList.remove("undisplay");
 }
-function moveToDeleteUserScreen(){
+function moveToDeleteUserScreen() {
     document.getElementById("loginedUserScreen").classList.add("undisplay");
     document.getElementById("deletUserScreen").classList.remove("undisplay");
 }
