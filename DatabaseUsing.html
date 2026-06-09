@@ -46,6 +46,18 @@
     <input type="text" id="deleteUserInput" placeholder="ID or Username"><br><br>
     <button onclick="deleteUser()">Delete</button><br><br>
     <button onclick="returnToLoginnedScreen(deletUserScreen)">Back</button><br><br>
+    </div>
+    <div id="showAllUsersScreen" class="undisplay">
+        
+    </div>
+    <div id="showUserScreen" class="undisplayed">
+        <input type = "text" id="showUserInput" placeholder="ID or Username"><br><br>
+        <button onclick="showUser()">Show</button>
+        <button onclick="returnToLoginnedScreen(showUserScreen)">Back</button><br><br>
+    </div><div id="showAllUsersScreen" class="undisplayed">
+        <button onclick="showUsers()">Show</button>
+        <button onclick="returnToLoginnedScreen(showAllUsersScreen)">Back</button><br><br>
+    </div>
 </body>
 
 </html>
