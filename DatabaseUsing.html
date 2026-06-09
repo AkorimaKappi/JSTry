@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>UsersDatabase</title>
+</head>
+.undisplay{
+    display: none;
+}
+
+<body>
+  <h1>
+    Database
+  </h1>
+  <div id="firstScreen">
+  <button onclick="moveToLoginScreen()" id="loginButton">Log In</button><br><br>
+  <button onclick="moveToRegisterScreen()" id="registerButton">Registrate</button>
+  </div>
+  <div id="loginScreen" class="undisplay">
+    <input type="text" id="loginUsername" placeholder="Username"><br><br>
+    <input type="password" id="loginPassword" placeholder="Password"><br><br>
+    <button onclick="loginUser()">Log In</button><br><br>
+    <button onclick="returnToFirstScreen(loginScreen)">Back</button>
+  </div>
+  <div id="registerScreen" class="undisplay">
+    <input type="text" id="registerUsername" placeholder="Username"><br><br>
+    <input type="text" id="registerFullName" placeholder="Full Name"><br><br>
+    <input type="text" id="registerEmail" placeholder="Email"><br><br>
+    <input type="text" id="registerAge" placeholder="Age"><br><br>
+    <input type="password" id="registerPassword" placeholder="Password"><br><br>
+    <input type="password" id="registerConfirmPassword" placeholder="Confirm Password"><br><br>
+    <button onclick="registerUser()">Registrate</button><br><br>
+    <button onclick="returnToFirstScreen(registerScreen)">Back</button>
+  </div>
+  <div id="loginedUserScreen" class="undisplay">
+    <button onclick="showUsers()">Show All Users</button><br><br>
+    <button onclick="showUser()">Show User by ID/Username</button><br><br>
+    <button onclick="deleteUser()">Delete User by ID/Username</button><br><br>
+    <button onclick="returnToFirstScreen(loginedUserScreen)">Log Out</button><br><br>
+  </div>
+</body>
+
+</html>

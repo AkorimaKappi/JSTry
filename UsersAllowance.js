@@ -126,6 +126,9 @@ function registerUser() {
     }
 }
 function loginUser() {
+    document.getElementById("loginButton").innerHTML = "";
+    document.getElementById("registerButton").innerHTML = "";
+    
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     let user = users.find(user => user.username === username);
@@ -148,7 +151,7 @@ function showUsers() {
         usersList.appendChild(listItem);
     });
 }
-function showUser(){
+function showUser() {
     let userDefiner = document.getElementById("userDefiner").value;
     let user = users.find(user => user.username === userDefiner || user.id === parseInt(userDefiner));
     if (user) {
