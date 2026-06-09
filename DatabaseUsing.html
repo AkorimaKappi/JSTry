@@ -42,6 +42,10 @@
     <button onclick="deleteUser()">Delete User by ID/Username</button><br><br>
     <button onclick="returnToFirstScreen(loginedUserScreen)">Log Out</button><br><br>
   </div>
+  <div id="deletUserScreen" class="undisplay">
+    <input type="text" id="deleteUserInput" placeholder="ID or Username"><br><br>
+    <button onclick="deleteUser()">Delete</button><br><br>
+    <button onclick="returnToLoginnedScreen(deletUserScreen)">Back</button><br><br>
 </body>
 
 </html>

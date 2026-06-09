@@ -19,7 +19,11 @@ function allowPassword(password) {
         return 4;
     } else if (!password.match(/[0-9]/)) {
         return 5;
-    } else return;
+    } else if (password.includes(" ")) {
+        return 6;
+    } else if(password!==document.getElementById("confirmRegisterPassword").value){
+        return 7;
+    }else return;
 }
 function allowFullname(fullName) {
     if (fullName.length == 0) {
@@ -49,7 +53,7 @@ function registerUser() {
         age: 0
     };
     let unchangedValues = 5;
-    username = document.getElementById("username").value;
+    username = document.getElementById("registerUsername").value;
     switch (allowUsername(username)) {
         case 1:
             alert("This username already exists");
@@ -64,7 +68,7 @@ function registerUser() {
             user.username = username;
             unchangedValues--;
     }
-    let password = document.getElementById("password").value;
+    let password = document.getElementById("registerPassword").value;
     switch (allowPassword(password)) {
         case 1:
             alert("Your password has to have at least 8 characters");
@@ -81,11 +85,17 @@ function registerUser() {
         case 5:
             alert("Your password must have at least one digit.");
             break;
+        case 6:
+            alert("Your password may not contain any spaces.");
+            break;
+        case 7:
+            alert("Your password and confirm password should be the same.");
+            break;
         default:
             user.password = password;
             unchangedValues--;
     }
-    let fullName = document.getElementById("fullName").value;
+    let fullName = document.getElementById("registerFullName").value;
     switch (allowFullname(fullName)) {
         case 1:
             alert("Your full name may not be empty.");
@@ -97,14 +107,14 @@ function registerUser() {
             user.fullName = fullName;
             unchangedValues--;
     }
-    let email = document.getElementById("email").value;
+    let email = document.getElementById("registerEmail").value;
     if (email.includes("@") && email.includes(".") && email.indexOf("@") < email.lastIndexOf(".") && email.indexOf(".") == email.lastIndexOf(".") && email.indexOf("@") > 0 && email.lastIndexOf(".") < email.length - 1) {
         alert("Your email is invalid.");
     } else {
         user.email = email;
         unchangedValues--;
     }
-    let age = document.parseInt(document.getElementById("age").value);
+    let age = document.parseInt(document.getElementById("registerAge").value);
     switch (allowAge(age)) {
         case 1:
             alert("You must be at least 18 years old to register.");
@@ -126,15 +136,14 @@ function registerUser() {
     }
 }
 function loginUser() {
-    document.getElementById("loginButton").innerHTML = "";
-    document.getElementById("registerButton").innerHTML = "";
-    
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
+
+    let username = document.getElementById("loginUsername").value;
+    let password = document.getElementById("loginPassword").value;
     let user = users.find(user => user.username === username);
     if (user) {
         if (user.password === password) {
-            alert("You have successfully logged in.");
+            document.getElementById("loginScreen").classList.add("undisplay");
+            document.getElementById("loginedUserScreen").classList.remove("undisplay");
         } else {
             alert("This password is incorrect.");
         }
@@ -165,7 +174,7 @@ function showUser() {
     }
 }
 function deleteUser() {
-    let userDefiner = document.getElementById("userDefiner").value;
+    let userDefiner = document.getElementById("deleteUserInput").value;
     let userIndex = users.findIndex(user => user.username === userDefiner || user.id === parseInt(userDefiner));
     if (userIndex !== -1) {
         users.splice(userIndex, 1);
@@ -173,4 +182,20 @@ function deleteUser() {
     } else {
         alert("The user was not found.");
     }
+}
+function returnToFirstScreen(screen) {
+    screen.classList.add("undisplay");
+    document.getElementById("firstScreen").classList.remove("undisplay");
+}
+function moveToRegisterScreen(){
+    document.getElementById("firstScreen").classList.add("undisplay");
+    document.getElementById("registerScreen").classList.remove("undisplay");
+}
+function moveToLoginScreen(){
+    document.getElementById("firstScreen").classList.add("undisplay");
+    document.getElementById("loginScreen").classList.remove("undisplay");
+}
+function returnToLoginnedScreen(screen){
+    screen.classList.add("undisplay");
+    document.getElementById("loginedUserScreen").classList.remove("undisplayed");
 }
