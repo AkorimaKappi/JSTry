@@ -1,47 +1,56 @@
 let users = [];
-function allowUsername(username){
-    if(users.includes(username)){
+function allowUsername(username) {
+    if (users.some(user => user.username === username)) {
         return 1;
-    }else if(username.includes(" ")){
+    } else if (username.includes(" ")) {
         return 2;
-    }else if(username.length < 3){
+    } else if (username.length < 3) {
         return 3;
     }
 }
-function allowPassword(password){
-    if(password.length < 8){
+function allowPassword(password) {
+    if (password.length < 8) {
         return 1;
-    }else if(password.length > 25){
+    } else if (password.length > 25) {
         return 2;
-    }else if(!password.match(/[A-Z]/)){
+    } else if (!password.match(/[A-Z]/)) {
         return 3;
-    }else if(!password.match(/[a-z]/)){
+    } else if (!password.match(/[a-z]/)) {
         return 4;
-    }else if(!password.match(/[0-9]/)){
+    } else if (!password.match(/[0-9]/)) {
         return 5;
-    }else return;
+    } else return;
 }
-function allowFullname(fullName){
-    if(fullName.length==0){
+function allowFullname(fullName) {
+    if (fullName.length == 0) {
         return 1;
-    }else if(fullName.match(/[0-9]/)){
+    } else if (fullName.match(/[0-9]/)) {
         return 2;
-    }else{
+    } else {
         return;
     }
 }
-function registerUser(){
+function allowAge(age) {
+    if (age < 18) {
+        return 1;
+    } else if (age > 100) {
+        return 2;
+    } else {
+        return;
+    }
+}
+function registerUser() {
     const user = {
-        id : 0,
-        username : " ",
-        fullName : " ",
-        password : " ",
-        email : " ",
-        age : 0
+        id: 0,
+        username: " ",
+        fullName: " ",
+        password: " ",
+        email: " ",
+        age: 0
     };
-    let unchangedValues = 6;
+    let unchangedValues = 5;
     username = document.getElementById("username").value;
-    switch(allowUsername(username)){
+    switch (allowUsername(username)) {
         case 1:
             alert("This username already exists");
             break;
@@ -56,7 +65,7 @@ function registerUser(){
             unchangedValues--;
     }
     let password = document.getElementById("password").value;
-    switch(allowPassword(password)){
+    switch (allowPassword(password)) {
         case 1:
             alert("Your password has to have at least 8 characters");
             break;
@@ -76,8 +85,8 @@ function registerUser(){
             user.password = password;
             unchangedValues--;
     }
-    let fullName=document.getElementById("fullName").value;
-    switch(allowFullname(fullName)){
+    let fullName = document.getElementById("fullName").value;
+    switch (allowFullname(fullName)) {
         case 1:
             alert("Your full name may not be empty.");
             break;
@@ -85,14 +94,80 @@ function registerUser(){
             alert("Your full name may not contain any digits.");
             break;
         default:
-            user.fullName=fullName;
+            user.fullName = fullName;
             unchangedValues--;
     }
     let email = document.getElementById("email").value;
-    if(email.includes("@") && email.includes(".") && email.indexOf("@") < email.lastIndexOf(".") && email.indexOf(".")==email.lastIndexOf(".") && email.indexOf("@")>0 && email.lastIndexOf(".")<email.length-1){
+    if (email.includes("@") && email.includes(".") && email.indexOf("@") < email.lastIndexOf(".") && email.indexOf(".") == email.lastIndexOf(".") && email.indexOf("@") > 0 && email.lastIndexOf(".") < email.length - 1) {
         alert("Your email is invalid.");
-    }else{
-        user.email=email;
+    } else {
+        user.email = email;
         unchangedValues--;
     }
+    let age = document.parseInt(document.getElementById("age").value);
+    switch (allowAge(age)) {
+        case 1:
+            alert("You must be at least 18 years old to register.");
+            break;
+        case 2:
+            alert("Your age is too high, people of such age are probably already retired.");
+            break;
+        default:
+            user.age = age;
+            unchangedValues--;
     }
+    if (unchangedValues == 0) {
+        user.id = users.length + 1;
+        users.push(user);
+        alert("You have successfully registered!");
+    }
+    else {
+        alert("Please correct the errors and try again.");
+    }
+}
+function loginUser() {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    let user = users.find(user => user.username === username);
+    if (user) {
+        if (user.password === password) {
+            alert("You have successfully logged in.");
+        } else {
+            alert("This password is incorrect.");
+        }
+    } else {
+        alert("Username was not found.");
+    }
+}
+function showUsers() {
+    let usersList = document.getElementById("usersList");
+    usersList.innerHTML = "";
+    users.forEach(user => {
+        let listItem = document.createElement("li");
+        listItem.textContent = `ID: ${user.id}  Username: ${user.username}  Full Name: ${user.fullName}  Email: ${user.email}  Age: ${user.age}`;
+        usersList.appendChild(listItem);
+    });
+}
+function showUser(){
+    let userDefiner = document.getElementById("userDefiner").value;
+    let user = users.find(user => user.username === userDefiner || user.id === parseInt(userDefiner));
+    if (user) {
+        let usersList = document.getElementById("usersList");
+        usersList.innerHTML = "";
+        let listItem = document.createElement("li");
+        listItem.textContent = `ID: ${user.id}  Username: ${user.username}  Full Name: ${user.fullName}  Email: ${user.email}  Age: ${user.age}`;
+        usersList.appendChild(listItem);
+    } else {
+        alert("The user was not found.");
+    }
+}
+function deleteUser() {
+    let userDefiner = document.getElementById("userDefiner").value;
+    let userIndex = users.findIndex(user => user.username === userDefiner || user.id === parseInt(userDefiner));
+    if (userIndex !== -1) {
+        users.splice(userIndex, 1);
+        alert("The user has been deleted.");
+    } else {
+        alert("The user was not found.");
+    }
+}
