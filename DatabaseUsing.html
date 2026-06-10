@@ -53,13 +53,13 @@
         <ul id="userShower"></ul>
         <input type="text" id="userDefiner" placeholder="ID or Username"><br><br>
         <button onclick="showUser()">Show</button>
-        <button onclick="returnToLoginnedScreen(showUserScreen)">Back</button><br><br>
+        <button onclick="returnToLoginnedScreen(showUserScreen),clearUserShower()">Back</button><br><br>
 
     </div>
     <div id="showAllUsersScreen" class="undisplay">
         <ul id="usersList"></ul>
         <button onclick="showUsers()">Show</button>
-        <button onclick="returnToLoginnedScreen(showAllUsersScreen)">Back</button><br><br>
+        <button onclick="returnToLoginnedScreen(showAllUsersScreen),clearUsersList()">Back</button><br><br>
     </div>
 
     <script src="UsersAllowance.js"></script>
