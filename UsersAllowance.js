@@ -174,6 +174,8 @@ function loginUser() {
     if (user) {
         if (user.password === password) {
             loginedID = user.id;
+            document.getElementById("loginUsername").value=null;
+            document.getElementById("loginPassword").value=null;
             document.getElementById("loginScreen").classList.add("undisplay");
             document.getElementById("loginedUserScreen").classList.remove("undisplay");
         } else {
@@ -255,4 +257,10 @@ function moveToShowUserScreen() {
 function moveToDeleteUserScreen() {
     document.getElementById("loginedUserScreen").classList.add("undisplay");
     document.getElementById("deleteUserScreen").classList.remove("undisplay");
+}
+function clearUsersList(){
+    document.getElementById("usersList").innerHTML="";
+}
+function clearUserShower(){
+    document.getElementById("userShower").innerHTML="";
 }
