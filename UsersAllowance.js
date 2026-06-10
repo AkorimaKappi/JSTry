@@ -189,7 +189,7 @@ function showUsers() {
     usersList.innerHTML = "";
     users.forEach(user => {
         let listItem = document.createElement("li");
-        listItem.textContent = `ID: ${user.id}  Username: ${user.username}  Full Name: ${user.fullName}  Email: ${user.email}  Age: ${user.age}`;
+        listItem.innerHTML = `ID: ${user.id} <br>Username: ${user.username}  <br>Full Name: ${user.fullName}  <br>Email: ${user.email}  <br>Age: ${user.age}<br><br>`;
         usersList.appendChild(listItem);
     });
 }
@@ -201,7 +201,7 @@ function showUser() {
         let usersList = document.getElementById("userShower");
         usersList.innerHTML = "";
         let listItem = document.createElement("li");
-        listItem.textContent = `ID: ${user.id}  Username: ${user.username}  Full Name: ${user.fullName}  Email: ${user.email}  Age: ${user.age}`;
+        listItem.innerHTML = `ID: ${user.id} <br>Username: ${user.username}  <br>Full Name: ${user.fullName}  <br>Email: ${user.email}  <br>Age: ${user.age}<br><br>`;
         usersList.appendChild(listItem);
     } else {
         alert("The user was not found.");
